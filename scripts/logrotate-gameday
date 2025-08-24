@@ -1,0 +1,25 @@
+# GameDay App ログローテーション設定
+/var/log/gameday-app/*.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    create 644 gameday-app gameday-app
+    postrotate
+        # アプリケーションにログファイルの再オープンを通知
+        systemctl reload gameday-app.service > /dev/null 2>&1 || true
+    endscript
+}
+
+# インストールログのローテーション
+/var/log/gameday-app-install.log {
+    weekly
+    missingok
+    rotate 4
+    compress
+    delaycompress
+    notifempty
+    create 644 root root
+}

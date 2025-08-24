@@ -1,0 +1,59 @@
+# AWS GameDay DDoS Environment - Terraform Variables Example
+# Copy this file to terraform.tfvars and customize the values
+
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Environment Configuration
+environment  = "gameday"
+project_name = "aws-gameday-ddos"
+
+# Network Configuration
+vpc_cidr = "10.0.0.0/16"
+
+# Security Level Configuration (1-4)
+# Level 1: No protection (baseline vulnerable state)
+# Level 2: Basic WAF protection enabled
+# Level 3: WAF + Shield Advanced protection
+# Level 4: Full protection with CloudFront + WAF + Shield Advanced
+security_level = 1
+
+# Instance Configuration
+instance_type = "t3.micro"
+
+# Monitoring Configuration
+enable_detailed_monitoring = true
+log_retention_days         = 7
+
+# Cost Management
+auto_cleanup_enabled = true
+budget_limit        = 50
+
+# Resource Lifecycle Management
+resource_expiration_hours     = 24
+cleanup_schedule_expression   = "rate(1 hour)"
+cleanup_dry_run              = false
+enable_cleanup_notifications  = true
+cost_center                  = "learning"
+resource_owner               = "gameday-admin"
+cleanup_notification_email   = "admin@example.com"
+
+# Cost Monitoring and Alerts
+budget_notification_emails   = ["admin@example.com", "finance@example.com"]
+cost_anomaly_threshold_usd   = 10
+daily_cost_threshold_usd     = 5
+enable_cost_optimization     = true
+
+# Example configurations for different security levels:
+
+# For Level 1 (Baseline - No Protection):
+# security_level = 1
+
+# For Level 2 (Basic WAF Protection):
+# security_level = 2
+
+# For Level 3 (Advanced Protection):
+# security_level = 3
+
+# For Level 4 (Full Protection):
+# security_level = 4

@@ -1,0 +1,48 @@
+[Unit]
+Description=GameDay Vulnerable Web Application
+Documentation=https://github.com/aws-samples/gameday-ddos-environment
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gameday-app
+Group=gameday-app
+WorkingDirectory=/opt/gameday-app
+ExecStart=/usr/bin/node app.js
+ExecReload=/bin/kill -HUP $MAINPID
+
+# 再起動設定
+Restart=always
+RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# 環境変数
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=LOG_LEVEL=info
+
+# ログ設定
+StandardOutput=append:/var/log/gameday-app/app.log
+StandardError=append:/var/log/gameday-app/error.log
+SyslogIdentifier=gameday-app
+
+# セキュリティ設定（意図的に緩い設定 - 学習目的）
+NoNewPrivileges=false
+PrivateTmp=false
+PrivateDevices=false
+ProtectHome=false
+ProtectSystem=false
+
+# リソース制限
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# プロセス管理
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
